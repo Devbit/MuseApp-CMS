@@ -46,7 +46,7 @@ $uname = "";
 	$query1 = mysql_query("SELECT email FROM users WHERE id='".$_SESSION["SESS_USERID"]."'") OR die(mysql_error());
 		while($row = mysql_fetch_array($query1)){
 ?>
-        <form action="#" method="post" style="margin:10px;">
+        <form action="#" method="post" style="margin:10px;" class="placeform">
             		<?php
 			if(count($errors) > 0){
 				echo "<div style='color:rgb(255, 133, 0);'>";

@@ -38,7 +38,7 @@ $errors = array();
 				}echo "</div>";}
 
 						echo "
-						<form method='post' action='' enctype='multipart/form-data'>
+						<form method='post' action='' enctype='multipart/form-data' class='placeform'>
 							<p>Titel:  <input type='text' name='titel' ></input></p>
 							<p>Uitgelicht: <select name='uitgelicht'>
 									<option value='1'>Ja</option>
@@ -109,6 +109,6 @@ $errors = array();
 									<option value='Museum'>Museum</option>
 							</select></p>
 							
-							<input type='submit' name='submiteditor' value='Save'>
+							<input type='submit' name='submiteditor' value='Save'><br/><br/>
 						</form>
 "; ?>

@@ -44,7 +44,7 @@ if (isset($_GET['getall'])&& $_SESSION["SESS_ROLE"] == 1) {$getall = 1;}else $ge
 	</tbody>
 	</table>
     <input type="submit" name="submit" class="save" value="Verwijder geselecteerde" style="margin-right: 120px;"></input>
-    <?php if($_SESSION["SESS_ROLE"] == 1) echo'<a href="home.php?page=myplaces&getall=1">Toon alle monumenten</a>'; ?>
+    <?php if($_SESSION["SESS_ROLE"] == 1) echo'<a class="button" style="float:right;" href="home.php?page=myplaces&getall=1">Toon alle monumenten</a>'; ?>
     </form>
     <?php
 	$checkbox = $_POST['checkbox'];

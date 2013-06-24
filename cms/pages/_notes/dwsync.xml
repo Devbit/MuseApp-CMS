@@ -14,4 +14,7 @@
 <file name="myaccount.php" server="elektraenzo.nl" local="130153477860550346" remote="130163001600000000" Dst="2" />
 <file name="newplace.php" server="elektraenzo.nl" local="130162964983923497" remote="130163037000000000" Dst="2" />
 <file name="newuser.php" server="elektraenzo.nl" local="130153566842432280" remote="130163001600000000" Dst="2" />
+<file name="myplaces.php" server="ftp.website8.nl//domains/jsonapp.tk/public_html/" local="130165454343408420" remote="130165453800000000" Dst="2" />
+<file name="newplace.php" server="ftp.website8.nl//domains/jsonapp.tk/public_html/" local="130165459669483054" remote="130165459200000000" Dst="2" />
+<file name="myaccount.php" server="ftp.website8.nl//domains/jsonapp.tk/public_html/" local="130165459998051847" remote="130165459800000000" Dst="2" />
 </dwsync>

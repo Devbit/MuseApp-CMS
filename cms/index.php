@@ -112,8 +112,8 @@ $uname = "";
 			<br/>
             <fieldset>
                 <input name="submit" id="submit" value="Login" class="login-submit" type="submit"/>
-                <a href="forgotpassword.php" style="float: right;">Wachtwoord vergeten</a> <br/>
-                <a href="register.php" style="float: right;">Registreren</a>
+                <a href="forgotpassword.php" style="float: right;" class="button">Wachtwoord vergeten</a> <br/><br/>
+                <a href="register.php" style="float: right;" class="button">Registreren</a>
             </fieldset>
         	<br/>
         </form>
