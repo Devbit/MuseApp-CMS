@@ -1,4 +1,4 @@
-<?php
+<?php header('content-type: application/json; charset=utf-8');
 
 /*
  * Following code will list all the places
@@ -22,6 +22,7 @@ $search = $_GET['s'];
 if (mysql_num_rows($result) > 0) {
     // looping through all results
     // places node
+	    $response["success"] = 1;
     $response["places"] = array();
     
     while ($row = mysql_fetch_array($result)) {
@@ -39,7 +40,6 @@ if (mysql_num_rows($result) > 0) {
         array_push($response["places"], $places);
     }
     // success
-    $response["success"] = 1;
 
     // echoing JSON response
     echo json_encode($response);

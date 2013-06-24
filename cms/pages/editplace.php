@@ -63,8 +63,8 @@ else{
 						
 						echo "<h2>Deze plaats aanpassen</h2>";
 						echo'
-						<img src="' . $thumb . '"  width="400px" style="position:relative;float:right;margin-right:20px;"/>
-						<form method="post" action="" enctype="multipart/form-data">
+						<img src="' . $thumb . '"  width="200px" style="position:absolute;margin-left:800px;"/>
+						<form method="post" action="" enctype="multipart/form-data" class="placeform">
 							<p>Titel:  <input type="text" name="titel" value="'.$titel.'"></input></p>
 							<p>Uitgelicht: <select name="uitgelicht">
 									<option value="'.$uitgelicht.'">'.$uitgelicht.'</option>
@@ -139,7 +139,7 @@ else{
 									<option value="Museum">Museum</option>
 							</select></p>
 							
-									<input type="submit" class="save" name="submiteditor" value="Save">
+									<input type="submit" class="save" name="submiteditor" value="Save"><br/><br/>
 						</form>
 ';
 	} else {

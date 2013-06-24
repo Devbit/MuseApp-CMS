@@ -160,6 +160,9 @@ margin-top: -125px;
 .fieldset2 {
 margin-bottom: 20px;
 }
+select {
+	width: 220px !important;
+}	
 input, textarea, select, .button { 
 	padding: 9px;
 	border: solid 1px #E5E5E5;

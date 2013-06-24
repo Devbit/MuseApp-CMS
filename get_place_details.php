@@ -9,7 +9,7 @@
 $response = array();
 
 // include db connect class
-include('db_connect.php');
+require_once __DIR__ . '/db_connect.php';
 
 // connecting to db
 $db = new DB_CONNECT();
@@ -36,6 +36,9 @@ if (isset($_GET["mid"])) {
 			$places["latitude"] = $result["latitude"];
 			$places["longitude"] = $result["longitude"];
 			$places["thumb"] = $result["thumb"];
+			$places["category"] = $result["category"];
+			$places["website"] = $result["website"];
+			$places["phone"] = $result["phone"];
             // success
             $response["success"] = 1;
 

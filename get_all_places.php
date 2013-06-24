@@ -8,7 +8,7 @@
 $response = array();
 
 // include db connect class
-include('db_connect.php');
+require_once __DIR__ . '/db_connect.php';
 
 // connecting to db
 $db = new DB_CONNECT();
@@ -31,6 +31,7 @@ if (mysql_num_rows($result) > 0) {
         $places["city"] = $row["city"];
         $places["latitude"] = $row["latitude"];
 		$places["longitude"] = $row["longitude"];
+		$places["category"] = $row["category"];
 
 
         // push single places into final response array
