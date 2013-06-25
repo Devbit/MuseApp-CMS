@@ -67,10 +67,13 @@ function resize_image($FileName,$SaveFile, $MaxWidth = null, $MaxHeight) {
             imagegif($DestImage, $SaveFile);
             break;
         case "png":
-            imagepng($DestImage, $SaveFile,0);
+			$quality = 70;
+			$pngQuality = ($quality - 100) / 11.111111;
+			$pngQuality = round(abs($pngQuality));
+            imagepng($DestImage, $SaveFile,$pngQuality);
             break;
         default:
-            imagejpeg($DestImage,$SaveFile,70);
+            imagejpeg($DestImage,$SaveFile,100);
             break;
     }
 
@@ -111,11 +114,12 @@ if(isset($_FILES['fileup']) && strlen($_FILES['fileup']['name']) > 1) {
 		$num++;
 	}
 	while(file_exists($newurl));
+	
 	if(move_uploaded_file($_FILES['fileup']['tmp_name'], $newurl)) {
 		  if (function_exists('database')){database($newurl);}
 		}
     else {$errors[] = 'Uploaden niet gelukt.';$err =1;}
-	resize_image($newurl,"../appthumbs/".basename($name.'.'.$type),null,405);
+	resize_image($newurl,"../appthumbs/".end(explode("/", $newurl)),null,405);
   }
 }
 ?>

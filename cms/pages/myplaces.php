@@ -30,7 +30,7 @@ if (isset($_GET['getall'])&& $_SESSION["SESS_ROLE"] == 1) {$getall = 1;}else $ge
 	} else {
 		if(!$rs = mysql_query("SELECT ID,title,info,modified_date FROM monumenten WHERE userid='" . $_SESSION["SESS_USERID"] . "'")){echo "Cannot parse query";}
 		}
-		if(mysql_num_rows($rs) == 0) {echo "No records found";} else{while($row = mysql_fetch_array($rs)) {
+		if(mysql_num_rows($rs) == 0) {echo "U heeft geen plaatsen.";} else{while($row = mysql_fetch_array($rs)) {
 	echo'
 
 					<tr>
