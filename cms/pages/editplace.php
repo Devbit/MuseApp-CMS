@@ -8,13 +8,8 @@ if(!$rs = mysql_query("SELECT * FROM monumenten WHERE id='" . $id . "'")){echo "
 elseif(mysql_num_rows($rs) == 0) {echo "No records found";}
 else{
 	while($row = mysql_fetch_array($rs)) {
-								if(count($errors) > 0){
-							echo "<div style='color:rgb(255, 133, 0);'>";
-						foreach($errors as $error){
-							echo $error . "<br />";
-						}echo "</div>";}
 	if(($row['userid'] == $_SESSION["SESS_USERID"])|| ($_SESSION["SESS_ROLE"] == 1)) {
-						$titel = $row['title'];
+						$title = $row['title'];
 						$uitgelicht = $row['uitgelicht'];
 						$info = $row['info'];
 						$otherinfo = $row['otherinfo'];
@@ -33,9 +28,14 @@ else{
 						$image = $row['image'];
 						$thumb = $row['thumb'];
 						$category = $row['category'];
-
+						$website = $row['website'];
+						$phone = $row['phone'];
+						$price = $row['price'];
 	if(isset($_POST['submiteditor'])) {
-						$titel = mysql_real_escape_string($_POST['titel']);
+		if(empty($_POST["title"])) $errors[] = "De titel mag niet leeg zijn.";
+	}
+	if(isset($_POST['submiteditor'])&& !$errors) {
+						$title = mysql_real_escape_string($_POST['title']);
 						$uitgelicht = mysql_real_escape_string($_POST['uitgelicht']);
 						$info = mysql_real_escape_string($_POST['info']);
 						$otherinfo = mysql_real_escape_string($_POST['otherinfo']);
@@ -57,15 +57,33 @@ else{
 						$thumb = "http://".$_SERVER['SERVER_NAME']."/appthumbs/".end(explode("/",$newurl));
 						}
 						$category = mysql_real_escape_string($_POST['category']);
-    	if($query= mysql_query("UPDATE monumenten SET title= '" . $title . "', uitgelicht= '". $uitgelicht . "', info='" . $info . "', otherinfo='" . $otherinfo . "', history='" . $history . "', unveilingmonth='" . $unveilingmonth . "', unveilingday='" . $unveilingday . "', unveilingyear='" . $unveilingyear . "', zipcode='" . $zipcode . "', address='" . $address . "', city='" . $city . "', community='" . $community . "', state='" . $state . "', artist='" . $artist . "', latitude='" . $latitude . "', longitude='" . $longitude. "', image='" . $image . "', thumb='" . $thumb. "', category='" . $category. "' WHERE id='" . $id . "'") or die(MySQL_Error()));
-		if($query) $errors[] = "Succes! Uw plaats is aangepast.";
+						$phone = mysql_real_escape_string($_POST['phone']);
+						$price = mysql_real_escape_string($_POST['price']);
+						if (!preg_match("~^(?:f|ht)tps?://~i", $_POST['website'])) $website = "http://" . mysql_real_escape_string($_POST['website']); else
+						$website = mysql_real_escape_string($_POST['website']);
+    	if($query= mysql_query("UPDATE monumenten SET title= '" . $title . "', uitgelicht= '". $uitgelicht . "', info='" . $info . "', otherinfo='" . $otherinfo . "', history='" . $history . "', unveilingmonth='" . $unveilingmonth . "', unveilingday='" . $unveilingday . "', unveilingyear='" . $unveilingyear . "', zipcode='" . $zipcode . "', address='" . $address . "', city='" . $city . "', community='" . $community . "', state='" . $state . "', artist='" . $artist . "', latitude='" . $latitude . "', longitude='" . $longitude. "', image='" . $image . "', thumb='" . $thumb. "', category='" . $category. "', phone='" . $phone. "', website='" . $website. "', price='" . $price. "' WHERE id='" . $id . "'") or die(MySQL_Error()));
+		if($query) {
+			$errors[] = "Succes! Uw plaats is aangepast.";
+			if(!$rs = mysql_query("SELECT version,counter FROM version WHERE id='1'")){echo "Cannot parse query";}
+			while($row = mysql_fetch_array($rs)) {
+				if($row['counter'] > 19) $query= mysql_query("UPDATE version SET version= '" . ($row['version'] + 0.01)  . "', counter= '0'") or die(MySQL_Error()); else {
+						$query= mysql_query("UPDATE version SET counter= '" . ($row['counter'] + 1)  . "'") or die(MySQL_Error());
+				}
+		}
+		}
+		
 	}
 						
 						echo "<h2>Deze plaats aanpassen</h2>";
+						if(count($errors) > 0){
+							echo "<div style='color:rgb(255, 133, 0);'>";
+						foreach($errors as $error){
+							echo $error . "<br />";
+						}echo "</div>";}
 						echo'
 						<img src="' . $thumb . '"  width="200px" style="position:absolute;margin-left:800px;"/>
 						<form method="post" action="" enctype="multipart/form-data" class="placeform">
-							<p>Titel:  <input type="text" name="titel" value="'.$titel.'"></input></p>
+							<p>Titel:  <input type="text" name="title" value="'.$title.'"></input></p>
 							<p>Uitgelicht: <select name="uitgelicht">
 									<option value="'.$uitgelicht.'">'.$uitgelicht.'</option>
 									<option value="1">Ja</option>
@@ -74,6 +92,8 @@ else{
 							<p>Info:  <input type="text" name="info" value="'.$info.'"></input></p>
 							<p>Otherinfo:  <input type="text" name="otherinfo" value="'.$otherinfo.'"></input></p>
 							<p>History:  <input type="text" name="history" value="'.$history.'"></input></p>
+							<p>Telefoonnummer:  <input type="text" name="phone" value="'.$phone.'"></input></p>
+							<p>Website:  <input type="text" name="website" value="'.$website.'"></input></p>
 							<p>Openingsdag: <select name="unveilingday">
 									<option value="'.$unveilingday.'" selected>'.$unveilingday.'</option>
 									<option value="1">1</option>
@@ -138,7 +158,7 @@ else{
 									<option value="Monument">Monument</option>
 									<option value="Museum">Museum</option>
 							</select></p>
-							
+							<p>Prijs:  <input type="text" name="price" value="'.$price.'"></input></p>
 									<input type="submit" class="save" name="submiteditor" value="Save"><br/><br/>
 						</form>
 ';

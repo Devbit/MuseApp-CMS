@@ -34,7 +34,7 @@ if (isset($_GET['getall'])&& $_SESSION["SESS_ROLE"] == 1) {$getall = 1;}else $ge
 	echo'
 
 					<tr>
-						<td><input name="checkbox[]" type="checkbox" id="checkbox[]" value="'.$row['ID'].'"></td>
+						<td width="100px"><input name="checkbox[]" type="checkbox" id="checkbox[]" value="'.$row['ID'].'"></td>
 						<td><a href="home.php?page=editplace&id='.$row['ID'].'">'. $row['title'] .'</a></td>
 						<td><a href="home.php?page=editplace&id='.$row['ID'].'">'. substr(strip_tags($row['info']),0, 60) . '...'.'</a></td>
 						<td>'. $row['modified_date'] .'</td>
@@ -49,13 +49,20 @@ if (isset($_GET['getall'])&& $_SESSION["SESS_ROLE"] == 1) {$getall = 1;}else $ge
     <?php
 	$checkbox = $_POST['checkbox'];
 if(isset($_POST['submit'])){
-for($i=0;$i<count($checkbox);$i++){
-$del_id = $checkbox[$i];
-$sql = "DELETE FROM monumenten WHERE ID='$del_id'";
-$result = mysql_query($sql);
-if($result){
-echo "<meta http-equiv='refresh'content='0'>";
-}
-}
+	for($i=0;$i<count($checkbox);$i++){
+	$del_id = $checkbox[$i];
+	$sql = "DELETE FROM monumenten WHERE ID='$del_id'";
+	
+	$result = mysql_query($sql);
+		if($result){
+		echo "<meta http-equiv='refresh'content='0'>";
+		}
+	}
+	if(!$rs = mysql_query("SELECT version,counter FROM version WHERE id='1'")){echo "Cannot parse query";}
+	while($row = mysql_fetch_array($rs)) {
+	if($row['counter'] > 19) $query= mysql_query("UPDATE version SET version= '" . ($row['version'] + 0.01)  . "', counter= '0'") or die(MySQL_Error()); else {
+						$query= mysql_query("UPDATE version SET counter= '" . ($row['counter'] + 1)  . "'") or die(MySQL_Error());
+							}
+						}
 }
 ?>

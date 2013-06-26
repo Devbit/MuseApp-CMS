@@ -16,10 +16,10 @@ $db = new DB_CONNECT();
 if (isset($_GET["lat"]) && isset($_GET["lng"])) {
 $lat = $_GET['lat'];
 $lng = $_GET['lng'];
-if(isset($_GET["lng"])) $dist = $_GET['dist']; else $dist = 20;
+if(isset($_GET["max"])) $max = $_GET['max']; else $max = 50;
     // get a places from placess table
-    $result = mysql_query("SELECT ID,title,address,city,latitude,longitude,category, ( 6371 * acos( cos( radians(".$lat.") ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(".$lng.") ) + sin( radians(".$lat.") ) * sin( radians( latitude ) ) ) ) AS distance FROM monumenten HAVING distance < ".$dist."
-ORDER BY distance ASC");
+    $result = mysql_query("SELECT ID,title,address,city,latitude,longitude,category, ( 6371 * acos( cos( radians(".$lat.") ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(".$lng.") ) + sin( radians(".$lat.") ) * sin( radians( latitude ) ) ) ) AS distance FROM monumenten HAVING distance < 30000
+ORDER BY distance ASC LIMIT 0,".$max."");
 
 // check for empty result
 if (mysql_num_rows($result) > 0) {

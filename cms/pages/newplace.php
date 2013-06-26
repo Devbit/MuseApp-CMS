@@ -2,6 +2,9 @@
 if(!strlen($_SESSION["SESS_USERNAME"]) > 0)header("location: ../home.php");
 $errors = array();
 				include_once("pictureupload.php");
+					if(isset($_POST['submiteditor'])) {
+						if(empty($_POST["titel"])) $errors[] = "De titel mag niet leeg zijn.";
+					}
 					if((isset($_POST['submiteditor'])) && (!$errors)) {
 						$title = mysql_real_escape_string($_POST['titel']);
 						$uitgelicht = mysql_real_escape_string($_POST['uitgelicht']);
@@ -17,6 +20,9 @@ $errors = array();
 						$community = mysql_real_escape_string($_POST['community']);
 						$state = mysql_real_escape_string($_POST['state']);
 						$artist = mysql_real_escape_string($_POST['artist']);
+						if (!preg_match("~^(?:f|ht)tps?://~i", $_POST['website'])) $website = "http://" . mysql_real_escape_string($_POST['website']); else
+						$website = mysql_real_escape_string($_POST['website']);
+						$phone = mysql_real_escape_string($_POST['phone']);
 						$latitude = mysql_real_escape_string($_POST['latitude']);
 						$longitude = mysql_real_escape_string($_POST['longitude']);
 						if(empty($newurl)) {$image = $row['image'];$thumb = $row['thumb'];}
@@ -25,9 +31,17 @@ $errors = array();
 						$thumb = "http://".$_SERVER['SERVER_NAME']."/appthumbs/".end(explode("/",$newurl));
 						}
 						$category = mysql_real_escape_string($_POST['category']);
+						$price = mysql_real_escape_string($_POST['price']);
 						$date = date('Y-m-d H:i:s');
-      					$query= mysql_query("INSERT INTO monumenten (ID, modified_date, title, uitgelicht, info, otherinfo, history, unveilingday, unveilingmonth, unveilingyear, zipcode, address, city, community, state, artist, latitude, longitude, image,thumb,category,userid) VALUES ('','" . $date . "','" . $title . "','" . $uitgelicht . "','" . $info . "','" . $otherinfo . "','" . $history . "','" . $unveilingday . "','" . $unveilingmonth . "','" . $unveilingyear . "','" . $zipcode . "','" . $address . "','" . $city . "','" . $community . "','" . $state . "','" . $artist . "','" . $latitude . "','" . $longitude . "','" . $image . "','" . $thumb . "','" . $category . "','" . $_SESSION["SESS_USERID"] . "')") or die(MySQL_Error());
+      					$query= mysql_query("INSERT INTO monumenten (ID, modified_date, title, uitgelicht, info, otherinfo, history, unveilingday, unveilingmonth, unveilingyear, zipcode, address, city, community, state, artist, latitude, longitude, image,thumb,category,userid,phone,website,price) VALUES ('','" . $date . "','" . $title . "','" . $uitgelicht . "','" . $info . "','" . $otherinfo . "','" . $history . "','" . $unveilingday . "','" . $unveilingmonth . "','" . $unveilingyear . "','" . $zipcode . "','" . $address . "','" . $city . "','" . $community . "','" . $state . "','" . $artist . "','" . $latitude . "','" . $longitude . "','" . $image . "','" . $thumb . "','" . $category . "','" . $_SESSION["SESS_USERID"] . "','" . $phone . "','" . $website . "','" . $price . "')") or die(MySQL_Error());
 						if($query) $errors[] = "Succes! Uw nieuwe plaats is aangemaakt.";
+						
+						if(!$rs = mysql_query("SELECT version,counter FROM version WHERE id='1'")){echo "Cannot parse query";}
+						while($row = mysql_fetch_array($rs)) {
+							if($row['counter'] > 19) $query= mysql_query("UPDATE version SET version= '" . ($row['version'] + 0.01)  . "', counter= '0'") or die(MySQL_Error()); else {
+						$query= mysql_query("UPDATE version SET counter= '" . ($row['counter'] + 1)  . "'") or die(MySQL_Error());
+							}
+						}
 					}
 					
 						echo "<h2>Nieuwe plaats</h2>";
@@ -47,6 +61,8 @@ $errors = array();
 							<p>Info:  <input type='text' name='info' ></input></p>
 							<p>Otherinfo:  <input type='text' name='otherinfo' ></input></p>
 							<p>History:  <input type='text' name='history' ></input></p>
+							<p>Telefoonnummer:  <input type='text' name='phone' ></input></p>
+							<p>Website:  <input type='text' name='website' ></input></p>
 							<p>Openingsdag: <select name='unveilingday'>
 									<option value='1'>1</option>
 									<option value='2'>2</option>
@@ -108,6 +124,7 @@ $errors = array();
 									<option value='Monument'>Monument</option>
 									<option value='Museum'>Museum</option>
 							</select></p>
+							<p>Prijs:  <input type='text' name='price' ></input></p>
 							
 							<input type='submit' name='submiteditor' value='Save'><br/><br/>
 						</form>

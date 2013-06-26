@@ -39,6 +39,7 @@ if (isset($_GET["mid"])) {
 			$places["category"] = $result["category"];
 			$places["website"] = $result["website"];
 			$places["phone"] = $result["phone"];
+			$places["price"] = $result["price"];
             // success
             $response["success"] = 1;
 
