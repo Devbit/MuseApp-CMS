@@ -25,8 +25,8 @@ if (mysql_num_rows($result) > 0) {
     while ($row = mysql_fetch_array($result)) {
         // temp user array
         $places = array();
-        $places["id"] = $row["id"];
-        $places["name"] = $row["name"];
+        $places["ID"] = $row["ID"];
+        $places["title"] = $row["title"];
         $places["info"] = $row["info"];
         $places["phone"] = $row["phone"];
         $places["website"] = $row["website"];
